@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile — Course Manager</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="page" style="max-width:560px">
+
+    <div class="page-header">
+        <a th:href="@{/home}" class="back-link">← Back</a>
+        <h1 class="page-title">Profile</h1>
+    </div>
+
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <!-- View + Edit -->
+    <div class="card">
+        <div class="card-title">Account Information</div>
+        <form th:action="@{/profile}" method="post">
+            <div class="profile-row">
+                <span class="profile-label">Student ID</span>
+                <span class="profile-value" th:text="${user.id}"></span>
+                <span></span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Name</span>
+                <span class="profile-value" th:text="${user.name}"></span>
+                <input type="text" class="form-control-sm" name="name" th:value="${user.name}" placeholder="New name"/>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Department</span>
+                <span class="profile-value" th:text="${user.departmentId}"></span>
+                <input type="text" class="form-control-sm" name="departmentId" th:value="${user.departmentId}" placeholder="New dept"/>
+            </div>
+            <div class="profile-row">
+                <span class="profile-label">Password</span>
+                <span class="profile-value" style="letter-spacing:3px">••••••••</span>
+                <input type="password" class="form-control-sm" name="password" placeholder="New password"/>
+            </div>
+            <div style="margin-top:20px">
+                <button type="submit" class="btn btn-primary btn-full">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="card" style="border-color:#fecaca">
+        <div class="card-title" style="color:var(--danger)">Danger Zone</div>
+        <p style="font-size:13px;color:var(--text-sub);margin-bottom:16px">
+            Permanently delete your account and all enrolled course records.
+        </p>
+        <form th:action="@{/profile/delete}" method="get"
+              onsubmit="return confirm('This will permanently delete your account. Are you sure?');">
+            <button type="submit" class="btn btn-danger btn-full">Delete Account</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

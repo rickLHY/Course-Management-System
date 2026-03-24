@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Info — Course Manager</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="page" style="max-width:560px">
+
+    <div class="page-header">
+        <a href="javascript:history.back()" class="back-link">← Back</a>
+        <h1 class="page-title">Instructor Information</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-title">👨‍🏫 Instructor Details</div>
+        <table class="info-table">
+            <tr>
+                <th>ID</th>
+                <td th:text="${instructor.id}"></td>
+            </tr>
+            <tr>
+                <th>Chinese Name</th>
+                <td th:text="${instructor.chineseName}"></td>
+            </tr>
+            <tr>
+                <th>English Name</th>
+                <td th:text="${instructor.englishName}"></td>
+            </tr>
+            <tr>
+                <th>Department</th>
+                <td th:text="${instructor.departmentId}"></td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td th:text="${instructor.title}"></td>
+            </tr>
+            <tr>
+                <th>Degree</th>
+                <td th:text="${instructor.degree}"></td>
+            </tr>
+            <tr>
+                <th>Research Field</th>
+                <td th:text="${instructor.researchField}"></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

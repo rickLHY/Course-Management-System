@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(winget search:*)",
+      "Bash(~/.m2/maven/apache-maven-3.9.9/bin/mvn --version)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8080/login)",
+      "Bash(curl -v http://localhost:8080/login)",
+      "Bash(netstat -ano)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8081/login)"
+    ]
+  }
+}

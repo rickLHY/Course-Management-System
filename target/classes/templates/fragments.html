@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-TW">
+<body>
+
+<!-- =====================
+     Navbar Fragment
+     Usage: <div th:replace="~{fragments :: navbar}"></div>
+     ===================== -->
+<nav th:fragment="navbar" class="navbar">
+    <a class="navbar-brand" th:href="@{/home}">📚 Course Manager</a>
+    <div class="navbar-spacer"></div>
+    <div class="navbar-links" th:if="${session.user != null}">
+        <span class="navbar-user" th:text="'Hi, ' + ${session.user.id}"></span>
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/profile}">Profile</a>
+        <a th:href="@{/course/search}">Courses</a>
+        <a th:href="@{/course/myCourse}">My Courses</a>
+        <a th:href="@{/logout}" class="logout">Logout</a>
+    </div>
+</nav>
+
+</body>
+</html>

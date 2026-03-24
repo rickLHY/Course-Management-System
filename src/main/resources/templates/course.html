@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Search — Course Manager</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/course.js}" defer></script>
+</head>
+<body>
+
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="page">
+
+    <div class="page-header">
+        <a th:href="@{/home}" class="back-link">← Back</a>
+        <h1 class="page-title">Course Search</h1>
+    </div>
+
+    <!-- Customized Search -->
+    <div class="card">
+        <div class="card-title">🎯 Customized Search</div>
+        <p style="font-size:13px;color:var(--text-sub);margin-bottom:16px">
+            Automatically filter courses for categories where you still need credits.
+        </p>
+        <form th:action="@{/course/customizedSearch}" method="get">
+            <button type="submit" class="btn btn-secondary">Run Customized Search</button>
+        </form>
+    </div>
+
+    <!-- Search Filter -->
+    <div class="card">
+        <div class="card-title">🔍 Search Filter</div>
+        <form th:action="@{/course/search}" method="get">
+
+            <div class="filter-grid">
+                <div class="form-group">
+                    <label>Sort By</label>
+                    <input type="text" class="form-control" name="orderBy"
+                           th:value="${param.orderBy}"
+                           list="orderChoices" placeholder="id"/>
+                    <datalist id="orderChoices">
+                        <option th:each="o : ${orderChoices}" th:value="${o}"></option>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label>Course Name</label>
+                    <input type="text" class="form-control" name="name"
+                           th:value="${param.name}" placeholder="Keyword search"/>
+                </div>
+                <div class="form-group">
+                    <label>Credit</label>
+                    <input type="number" class="form-control" name="credit"
+                           th:value="${param.credit}" placeholder="e.g. 3" min="0"/>
+                </div>
+                <div class="form-group">
+                    <label>Hours</label>
+                    <input type="number" class="form-control" name="hours"
+                           th:value="${param.hours}" placeholder="e.g. 3" min="0"/>
+                </div>
+                <div class="form-group">
+                    <label>Max Students</label>
+                    <input type="number" class="form-control" name="maxStudentNumber"
+                           th:value="${param.maxStudentNumber}" placeholder="e.g. 50" min="0"/>
+                </div>
+                <div class="form-group">
+                    <label>Building</label>
+                    <input type="text" class="form-control" name="buildingId"
+                           th:value="${param.buildingId}"
+                           list="buildingList" placeholder="Building ID"/>
+                    <datalist id="buildingList">
+                        <option th:each="b : ${buildingList}" th:value="${b.id}" th:label="${b.name}"></option>
+                    </datalist>
+                </div>
+                <div class="form-group">
+                    <label>Classroom <span style="color:var(--text-sub);font-weight:400">(comma-separated)</span></label>
+                    <input type="text" class="form-control" name="classroomStr"
+                           th:value="${param.classroomStr}" placeholder="e.g. A101,B202"/>
+                </div>
+                <div class="form-group">
+                    <label>Instructor</label>
+                    <input type="text" class="form-control" name="instructorIdStr"
+                           th:value="${param.instructorIdStr}"
+                           list="instructorList" placeholder="Instructor ID"/>
+                    <datalist id="instructorList">
+                        <option th:each="ins : ${instructorList}"
+                                th:value="${ins.id}"
+                                th:label="${ins.chineseName}"></option>
+                    </datalist>
+                </div>
+            </div>
+
+            <!-- Time Picker -->
+            <div class="form-group" style="margin-top:8px">
+                <label>Course Time</label>
+                <div class="time-grid">
+                    <label th:each="t : ${timeList}" class="time-label">
+                        <input type="checkbox" name="time" th:value="${t}"
+                               th:checked="${param.time != null and param.time.contains(t)}"/>
+                        <span th:text="${t}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Category -->
+            <div class="form-group" style="margin-top:8px">
+                <label>Category</label>
+                <div class="category-grid">
+                    <label th:each="c : ${categoryList}" class="check-label">
+                        <input type="checkbox" name="category" th:value="${c}"
+                               th:checked="${param.category != null and param.category.contains(c)}"/>
+                        <span th:text="${c}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:20px">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a th:href="@{/course/search}" class="btn btn-secondary">Clear</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Results -->
+    <div class="card">
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+            <span>Search Results</span>
+            <span style="font-size:12px;font-weight:400;color:var(--text-sub)"
+                  th:text="${courseList != null ? courseList.size() + ' courses found' : ''}"></span>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Credit</th>
+                    <th>Hours</th>
+                    <th>Max</th>
+                    <th>Time</th>
+                    <th>Building</th>
+                    <th>Classroom</th>
+                    <th>Instructor</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody id="course" style="display:none">
+                <tr th:each="course : ${courseList}" th:data-course-id="${course.id}">
+                    <td><span class="badge badge-gray" th:text="${course.id}"></span></td>
+                    <td style="font-weight:500" th:text="${course.name}"></td>
+                    <td class="td-center" th:text="${course.credit}"></td>
+                    <td class="td-center" th:text="${course.hours}"></td>
+                    <td class="td-center" th:text="${course.maxStudentNumber}"></td>
+                    <td style="font-size:12px" th:text="${course.time}"></td>
+                    <td>
+                        <a th:href="@{/building/{id}(id=${course.buildingId})}"
+                           th:text="${course.buildingId}"
+                           style="font-size:12px"></a>
+                    </td>
+                    <td style="font-size:12px" th:text="${course.classroom}"></td>
+                    <td style="font-size:12px">
+                        <span th:each="i, stat : ${course.instructorId}">
+                            <a th:href="@{/instructor/{id}(id=${i})}" th:text="${i}"></a><span th:if="${!stat.last}">, </span>
+                        </span>
+                    </td>
+                    <td style="font-size:11px;color:var(--text-sub)" th:text="${course.category}"></td>
+                    <td>
+                        <span class="status" th:attr="data-course-id=${course.id}">
+                            <span class="badge badge-gray">loading...</span>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p th:if="${courseList == null or courseList.isEmpty()}"
+           style="text-align:center;color:var(--text-sub);padding:32px 0;font-size:13px">
+            No courses found. Try adjusting your search filters.
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>

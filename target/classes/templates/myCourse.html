@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-TW" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Courses — Course Manager</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments :: navbar}"></div>
+
+<div class="page">
+
+    <div class="page-header">
+        <a th:href="@{/home}" class="back-link">← Back</a>
+        <h1 class="page-title">My Courses</h1>
+    </div>
+
+    <!-- Credit Progress -->
+    <div class="card">
+        <div class="card-title">📊 Credit Progress</div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th style="width:55%">Category</th>
+                    <th>Progress</th>
+                    <th style="width:80px;text-align:center">Credits</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:with="cur=${userCredit.basicScience}, req=${minimumCredit.basicScience}">
+                    <td>Basic Science</td>
+                    <td>
+                        <div class="progress-wrap">
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill"
+                                     th:classappend="${cur >= req} ? 'done'"
+                                     th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.compulsoryCourse}, req=${minimumCredit.compulsoryCourse}">
+                    <td>Compulsory Course</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.electiveProgramCourse}, req=${minimumCredit.electiveProgramCourse}">
+                    <td>Elective Program</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.electiveProfessionalCourse}, req=${minimumCredit.electiveProfessionalCourse}">
+                    <td>Elective Professional</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.freeElectiveCourse}, req=${minimumCredit.freeElectiveCourse}">
+                    <td>Free Elective</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.crossDisciplinaryProgram}, req=${minimumCredit.crossDisciplinaryProgram}">
+                    <td>Cross-Disciplinary Program</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.schoolBasicCoreCurriculumCourse}, req=${minimumCredit.schoolBasicCoreCurriculumCourse}">
+                    <td>School Basic Core Curriculum</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.schoolDomainCoreCurriculumCourse}, req=${minimumCredit.schoolDomainCoreCurriculumCourse}">
+                    <td>School Domain Core Curriculum</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.schoolLanguageCourse}, req=${minimumCredit.schoolLanguageCourse}">
+                    <td>Language Course</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.schoolPeCourse}, req=${minimumCredit.schoolPeCourse}">
+                    <td>PE Course</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.schoolServiceLearningCourse}, req=${minimumCredit.schoolServiceLearningCourse}">
+                    <td>Service Learning</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.schoolStudentAcademicResearchEthicsEducationCourse}, req=${minimumCredit.schoolStudentAcademicResearchEthicsEducationCourse}">
+                    <td>Research Ethics Education</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                <tr th:with="cur=${userCredit.schoolOnlineGenderEqualityEducationCourse}, req=${minimumCredit.schoolOnlineGenderEqualityEducationCourse}">
+                    <td>Gender Equality Education</td>
+                    <td><div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" th:classappend="${cur >= req} ? 'done'" th:style="'width:' + (${req} == 0 ? 100 : (${cur} > ${req} ? 100 : (${cur} * 100 / ${req}))) + '%'"></div></div></div></td>
+                    <td class="td-center" th:text="${cur} + ' / ' + ${req}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Enrolled Courses -->
+    <div class="card">
+        <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+            <span>📚 Enrolled Courses</span>
+            <span style="font-size:12px;font-weight:400;color:var(--text-sub)"
+                  th:text="${takeList != null ? takeList.size() + ' courses' : ''}"></span>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Course ID</th>
+                    <th>Time Taken</th>
+                    <th>Score</th>
+                    <th style="width:80px;text-align:center">Save</th>
+                    <th style="width:80px;text-align:center">Remove</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="take : ${takeList}">
+                    <td><span class="badge badge-blue" th:text="${take.courseId}"></span></td>
+                    <form th:action="@{/course/myCourse/update/{courseId}(courseId=${take.courseId})}" method="post"
+                          style="display:contents">
+                        <td><input type="text" class="form-control-sm" name="time" th:value="${take.time}" placeholder="e.g. 2024-09" style="width:120px"/></td>
+                        <td><input type="text" class="form-control-sm" name="score" th:value="${take.score}" placeholder="e.g. A+" style="width:80px"/></td>
+                        <td class="td-center"><button type="submit" class="btn btn-primary btn-sm">Save</button></td>
+                    </form>
+                    <td class="td-center">
+                        <form th:action="@{/course/myCourse/delete/{courseId}(courseId=${take.courseId})}" method="post"
+                              onsubmit="return confirm('Remove this course?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p th:if="${takeList == null or takeList.isEmpty()}"
+           style="text-align:center;color:var(--text-sub);padding:32px 0;font-size:13px">
+            You haven't enrolled in any courses yet.
+            <a th:href="@{/course/search}">Browse courses →</a>
+        </p>
+    </div>
+
+</div>
+
+</body>
+</html>
