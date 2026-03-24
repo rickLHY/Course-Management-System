@@ -28,6 +28,7 @@ public class InstructorController {
             return "redirect:/course/search";
         }
         Instructor instructor = instructorService.getInstructorById(instructorId);
+        if (instructor == null) return "redirect:/course/search";
         model.addAttribute("instructor", instructor);
         return "instructor";
     }

@@ -183,13 +183,13 @@ public class CourseDaoImpl implements CourseDao {
         List<Course> completeCourseList = tempCourse != null ? new ArrayList<>(tempCourse) : new ArrayList<>();
         completeCourseList.sort((o1, o2) ->
             switch(orderBy) {
-                case "id" -> o1.getId().compareTo(o2.getId());
-                case "name" -> o1.getName().compareTo(o2.getName());
-                case "credit" -> o1.getCredit() - o2.getCredit();
-                case "hours" -> o1.getHours() - o2.getHours();
-                case "max_student_number" -> o1.getMaxStudentNumber() - o2.getMaxStudentNumber();
-                case "building_id" -> o1.getBuildingId().compareTo(o2.getBuildingId());
-                default -> o1.getId().compareTo(o2.getId());
+                case "id" -> o1.getId() != null && o2.getId() != null ? o1.getId().compareTo(o2.getId()) : 0;
+                case "name" -> o1.getName() != null && o2.getName() != null ? o1.getName().compareTo(o2.getName()) : 0;
+                case "credit" -> o1.getCredit() != null && o2.getCredit() != null ? o1.getCredit() - o2.getCredit() : 0;
+                case "hours" -> o1.getHours() != null && o2.getHours() != null ? o1.getHours() - o2.getHours() : 0;
+                case "max_student_number" -> o1.getMaxStudentNumber() != null && o2.getMaxStudentNumber() != null ? o1.getMaxStudentNumber() - o2.getMaxStudentNumber() : 0;
+                case "building_id" -> o1.getBuildingId() != null && o2.getBuildingId() != null ? o1.getBuildingId().compareTo(o2.getBuildingId()) : 0;
+                default -> o1.getId() != null && o2.getId() != null ? o1.getId().compareTo(o2.getId()) : 0;
         });
         return completeCourseList;
     }

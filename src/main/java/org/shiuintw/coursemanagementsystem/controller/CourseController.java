@@ -63,12 +63,12 @@ public class CourseController {
             "elective_program_course",
             "elective_professional_course",
             "free_elective_course",
-            "cross-disciplinary_Program",
+            "cross_disciplinary_program",
             "school_basic_core_curriculum_course",
             "school_domain_core_curriculum_course",
             "school_language_course",
-            "school_PE_course",
-            "school_service-learning_course",
+            "school_pe_course",
+            "school_service_learning_course",
             "school_student_academic_research_ethics_education_course",
             "school_online_gender_equality_education_course"
     );
@@ -210,11 +210,12 @@ public class CourseController {
     public ResponseEntity<Take> takeCourse(@PathVariable String courseId,
                                            HttpSession session) {
         User user = (User) session.getAttribute("user");
+        if (user == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         Take take = new Take();
         take.setCourseId(courseId);
         take.setUserId(user.getId());
         if (!takeService.createTake(take))
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(take);
     }
@@ -224,6 +225,7 @@ public class CourseController {
     public Map<String, Boolean> isCourseTaken(@PathVariable String courseId,
                                               HttpSession session) {
         User user = (User) session.getAttribute("user");
+        if (user == null) return Collections.singletonMap("taken", false);
         boolean taken = takeService.getTakeById(user.getId(), courseId) != null;
         return Collections.singletonMap("taken", taken);
     }

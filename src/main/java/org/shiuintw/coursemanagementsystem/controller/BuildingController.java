@@ -29,6 +29,7 @@ public class BuildingController {
             return "redirect:/course/search";
         }
         Building building = buildingService.getBuildingById(buildingId);
+        if (building == null) return "redirect:/course/search";
         model.addAttribute("building", building);
         return "building";
     }
