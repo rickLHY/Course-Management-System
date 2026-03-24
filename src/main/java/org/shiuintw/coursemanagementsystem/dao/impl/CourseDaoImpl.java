@@ -46,7 +46,7 @@ public class CourseDaoImpl implements CourseDao {
                 "LEFT JOIN course_classroom USING(id) " +
                 "LEFT JOIN course_instructor_id USING(id) " +
                 "LEFT JOIN course_category USING(id) " +
-                "WHERE id = :id";
+                "WHERE course.id = :id";
         Map<String, Object> map = new HashMap<>();
         map.put("id", id);
 
@@ -129,7 +129,7 @@ public class CourseDaoImpl implements CourseDao {
 
         // search param
         if (courseRequest.getId() != null) {
-            sql += " AND id = :id";
+            sql += " AND course.id = :id";
             map.put("id", courseRequest.getId());
         }
 
